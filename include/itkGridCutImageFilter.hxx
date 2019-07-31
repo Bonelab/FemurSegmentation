@@ -49,10 +49,10 @@ GridCutImageFilter< TInputImage, TMaskImage, TOutputImage >
   this->m_nVoxels = this->m_Dimensions[0]*this->m_Dimensions[1]*this->m_Dimensions[2];
 
   /* Create graph */
-  this->m_Grid = std::make_unique<Grid>(
+  this->m_Grid = std::unique_ptr<Grid>(new Grid(
     this->m_Dimensions[0], this->m_Dimensions[1], this->m_Dimensions[2],
     this->GetMultiThreader()->GetMaximumNumberOfThreads(), this->m_BlockSize
-  );
+  ));
 
   /* Create arrays */
   this->m_tLinks.resize(this->m_nLabels);
