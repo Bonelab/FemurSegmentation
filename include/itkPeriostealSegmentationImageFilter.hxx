@@ -79,7 +79,7 @@ PeriostealSegmentationImageFilter< TInputImage, TMaskImage, TOutputImage >
 
   if ( (p > q) )
   {
-    weight = vcl_exp(-1.0 * (vcl_pow(p - q, 2)) / (2.0* vcl_pow(this->m_Sigma, 2) ) );
+    weight = std::exp(-1.0 * (std::pow(p - q, 2)) / (2.0* std::pow(this->m_Sigma, 2) ) );
   }
   else
   {

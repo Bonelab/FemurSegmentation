@@ -63,7 +63,7 @@ GridCutImageFilter< TInputImage, TOutputImage >
 ::AfterThreadedGenerateData()
 {
   /* Solve the graph */
-  auto grid = std::make_unique<Grid>(width, height, depth, nLabels, this->m_Data, this->m_Smooth, this->GetNumberOfThreads(), block_size);
+  auto grid = std::make_unique<Grid>(width, height, depth, nLabels, this->m_Data, this->m_Smooth, this->GetMultiThreader()->GetMaximumNumberOfThreads(), block_size);
   grid->set_labels(this->m_BackgroundLabel);
   grid->perform();
 

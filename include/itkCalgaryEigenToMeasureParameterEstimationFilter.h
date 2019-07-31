@@ -21,7 +21,7 @@
 
 #include "itkMath.h"
 #include "itkEigenToMeasureParameterEstimationFilter.h"
-#include "itkSimpleFastMutexLock.h"
+#include <mutex>
 
 namespace itk {
 /** \class CalgaryEigenToMeasureParameterEstimationFilter
@@ -37,8 +37,8 @@ namespace itk {
  * the square root of the sum of squares of the eigenvalues.
  * 
  * The parameters are estimated over the whole volume unless a mask is given.
- * If a mask is given, parameters are evaluated only where IsInside returns
- * true.
+ * If a mask is given, parameters are evaluated only where IsInsideInWorldSpace
+ * returns true.
  * 
  * \sa BeslerEigenToMeasureImageFilter
  * \sa EigenToMeasureParameterEstimationFilter
@@ -121,7 +121,7 @@ private:
   RealType  m_FrobeniusNormWeight;
   RealType  m_MaxFrobeniusNorm;
 
-  SimpleFastMutexLock m_Mutex;
+  std::mutex m_Mutex;
 }; // end class
 } /* end namespace */
 

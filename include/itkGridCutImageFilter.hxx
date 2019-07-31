@@ -51,7 +51,7 @@ GridCutImageFilter< TInputImage, TMaskImage, TOutputImage >
   /* Create graph */
   this->m_Grid = std::make_unique<Grid>(
     this->m_Dimensions[0], this->m_Dimensions[1], this->m_Dimensions[2],
-    this->GetNumberOfThreads(), this->m_BlockSize
+    this->GetMultiThreader()->GetMaximumNumberOfThreads(), this->m_BlockSize
   );
 
   /* Create arrays */

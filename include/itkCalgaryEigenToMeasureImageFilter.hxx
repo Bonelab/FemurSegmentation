@@ -74,8 +74,8 @@ CalgaryEigenToMeasureImageFilter< TInputImage, TOutputImage >
 
   /* Multiply together to get sheetness */
   sheetness = (m_EnhanceType*a3/l3);
-  sheetness *= vcl_exp(-(Rbone * Rbone) / (2 * alpha * alpha));
-  sheetness *= (1.0 - vcl_exp(-(Rnoise * Rnoise) / (2 * c * c)));
+  sheetness *= std::exp(-(Rbone * Rbone) / (2 * alpha * alpha));
+  sheetness *= (1.0 - std::exp(-(Rnoise * Rnoise) / (2 * c * c)));
 
   return static_cast<OutputImagePixelType>( sheetness );
 }

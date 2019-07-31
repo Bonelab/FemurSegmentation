@@ -20,7 +20,6 @@
 #define itkCalgaryEigenToMeasureParameterEstimationFilter_hxx
 
 #include "itkCalgaryEigenToMeasureParameterEstimationFilter.h"
-#include "itkMutexLockHolder.h"
 
 namespace itk {
 
@@ -106,7 +105,7 @@ CalgaryEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   {
     // Process point
     inputPointer->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ( (!maskPointer) ||  (maskPointer->IsInside(point)) )
+    if ( (!maskPointer) ||  (maskPointer->IsInsideInWorldSpace(point)) )
     {
       /* Compute max norm */
       max = std::max( max, this->CalculateFrobeniusNorm(inputIt.Get()) );
@@ -121,7 +120,7 @@ CalgaryEigenToMeasureParameterEstimationFilter< TInputImage, TOutputImage >
   }
 
   /* Block and store */
-  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+  std::lock_guard<std::mutex> guard(m_Mutex);
   m_MaxFrobeniusNorm = std::max( m_MaxFrobeniusNorm, max );
 }
 
