@@ -8,9 +8,9 @@ import argparse
 # Argument Parsing
 parser = argparse.ArgumentParser(description='Perform graph cut segmentation on the image')
 parser.add_argument('base_name', help='Scan base name (e.g. RETRO_00001)')
-parser.add_argument('--sheet_ending', default='_SHEET.nii', help='Ending for the shetness image')
-parser.add_argument('--mark_ending', default='_MARK.nii', help='Ending for the marked image')
-parser.add_argument('--peri_ending', default='_PERI.nii', help='Ending for the periosteal segmentation')
+parser.add_argument('--sheet_ending', default='_SHEET.nii', help='Ending for the sheetness image')
+parser.add_argument('--mark_ending', default='_MARK.nii.gz', help='Ending for the marked image')
+parser.add_argument('--peri_ending', default='_PERI.nii.gz', help='Ending for the periosteal segmentation')
 parser.add_argument('--enhance_bright', default=1, help='Enhance bright objects? (1=Yes, 0=No)')
 parser.add_argument('--sigma', default=0.25, help='Boundry term noise')
 parser.add_argument('--gc_lambda', default=50.0, help='Smoothness term')
@@ -61,7 +61,7 @@ for name, label in labels.items():
   print('')
 
 print('Combining each segmentation')
-first = labels.keys()[0]
+first = list(labels)[0]
 temp_name = os.path.join(MODEL_DIR, args.base_name + "_TEMP_" + first + ".nii")
 seg = sitk.ReadImage(str(temp_name), sitk.sitkUInt8)
 seg = labels[first]*(seg>0)
