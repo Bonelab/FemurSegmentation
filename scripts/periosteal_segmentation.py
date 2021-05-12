@@ -12,6 +12,7 @@ parser.add_argument('--sheet_ending', default='_SHEET.nii', help='Ending for the
 parser.add_argument('--mark_ending', default='_MARK.nii.gz', help='Ending for the marked image')
 parser.add_argument('--peri_ending', default='_PERI.nii.gz', help='Ending for the periosteal segmentation')
 parser.add_argument('--enhance_bright', default=1, help='Enhance bright objects? (1=Yes, 0=No)')
+parser.add_argument('--conn_filter', default=1, help='How many connected bones to detect?')
 parser.add_argument('--sigma', default=0.25, help='Boundry term noise')
 parser.add_argument('--gc_lambda', default=50.0, help='Smoothness term')
 parser.add_argument('--project_directory', default=
@@ -52,8 +53,8 @@ for name, label in labels.items():
   print('Processing label {} ({})'.format(label, name))
   temp_name = os.path.join(MODEL_DIR, args.base_name + "_TEMP_" + name + ".nii")
 
-  # ${prog} ${input} ${mask} ${output} ${lambda} ${sigma} ${label}"
-  cmd = [CPP, SHEET_FILE_NAME, MARK_FILE_NAME, temp_name, args.gc_lambda, args.sigma, label]
+  # ${prog} ${input} ${mask} ${output} ${lambda} ${sigma} ${label} ${conn_filter}"
+  cmd = [CPP, SHEET_FILE_NAME, MARK_FILE_NAME, temp_name, args.gc_lambda, args.sigma, label, args.conn_filter]
   cmd = [str(x) for x in cmd]
   print('  CMD: {}'.format(cmd))
   res = subprocess.check_output(cmd)

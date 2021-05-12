@@ -28,12 +28,12 @@ using LabelShapeKeepNObjectsImageFilterType = itk::LabelShapeKeepNObjectsImageFi
 using ThresholdFilterType = itk::BinaryThresholdImageFilter< MaskImageType, OutputImageType >;
 
 int main(int argc, char** argv) {
-  if( argc != 7 )
+  if( argc != 8 )
   {
     std::cerr << "Usage: "<< std::endl;
     std::cerr << argv[0];
     std::cerr << " <InputFileName> <MaskFileName> <OutputSegmentation> ";
-		std::cerr << " <Lambda> <Sigma> <Label>";
+		std::cerr << " <Lambda> <Sigma> <Label> <ConnFilter>";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
@@ -46,6 +46,7 @@ int main(int argc, char** argv) {
   double lambda = atof(argv[4]);
 	double sigma = atof(argv[5]);
 	int label = atoi(argv[6]);
+	int connFilter = atoi(argv[7]);
 
 	std::cout << "Parameters:" << std::endl;
   std::cout << "  InputFilePath:    " << inputFileName << std::endl;
@@ -54,6 +55,7 @@ int main(int argc, char** argv) {
   std::cout << "  Lambda:           " << lambda << std::endl;
   std::cout << "  Sigma:            " << sigma << std::endl;
 	std::cout << "  Label:            " << label << std::endl;
+	std::cout << "  ConnFilter:       " << connFilter << std::endl;
   std::cout << std::endl;
 
 	std::cout << "Reading input " << inputFileName << std::endl;
@@ -85,7 +87,7 @@ int main(int argc, char** argv) {
   LabelShapeKeepNObjectsImageFilterType::Pointer fgKeeper = LabelShapeKeepNObjectsImageFilterType::New();
   fgKeeper->SetInput( fgConnected->GetOutput() );
   fgKeeper->SetBackgroundValue( 0 );
-  fgKeeper->SetNumberOfObjects( 1 );
+  fgKeeper->SetNumberOfObjects( connFilter );
   fgKeeper->SetAttribute( LabelShapeKeepNObjectsImageFilterType::LabelObjectType::NUMBER_OF_PIXELS);
 	fgKeeper->Update();
 
